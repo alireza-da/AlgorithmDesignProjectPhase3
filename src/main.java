@@ -92,16 +92,40 @@ public class main {
     }
 
     public static void main(String[] args) {
-        ArrayList<ArrayList<Integer>> mat = new ArrayList<>(11);
-        for (int i=0 ; i<11 ; i++){
-            for (int j=0 ; j<11 ; j++){
-                mat.get(i).set(j , 1);
+        ArrayList<ArrayList<Integer>> mat = new ArrayList<>();
+        try {
+            File input = new File(args[0]);
+            if (input.canRead()) {
+                Scanner fileObject = new Scanner(input);
+                while (fileObject.hasNextLine()){
+                    data.add(fileObject.nextLine());
+                }
+                fileObject.close();
+
             }
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        ArrayList<Integer> pos = new ArrayList<>(2);
-        pos.set(0 , 3);
-        pos.set(1 , 3);
-        System.out.println(wallMaker(mat , pos));
+        String[] fieldDimensions = data.get(0).split(" ");
+        int m = Integer.parseInt(fieldDimensions[0]);
+        int n = Integer.parseInt(fieldDimensions[1]);
+        for (int i = 1; i < m+1; i++) {
+                String[] row = data.get(i).split(" ");
+                if (row.length != n) {
+                    System.out.println("Error: row does not contain enough integers");
+                }
+                ArrayList<Integer> tempRow = new ArrayList<>();
+            for (String s:row
+                 ) {
+                tempRow.add(Integer.parseInt(s));
+            }
+            mat.add(tempRow);
+        }
+        String[] posString = data.get(data.size()-1).split(" ");
+        int[] pos = new int[2];
+        for (int i = 0; i < posString.length; i++) {
+            pos[i] = Integer.parseInt(posString[i]);
+        }
     }
 
 
